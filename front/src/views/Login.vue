@@ -40,4 +40,18 @@ export default {
 #login form input {
   margin: 3vh 0
 }
+
+@media only screen and (max-width: 720px) {
+  #login {
+    height: auto;
+  }
+
+  #login img {
+    width: 30%;
+  }
+
+  #login form {
+    width: 90%;
+  }
+}
 </style>

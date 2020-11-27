@@ -74,17 +74,42 @@ export default {
 #home .receitar {
   margin-top:20px; 
   font-size: 18px;
-  width: 50%;
+  width: 80%;
 }
 
 #home .field {
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 #home .fieldset {
   height: 40vh;
   overflow: auto;
+}
+
+@media only screen and (max-width: 720px) {
+  #home {
+    flex-direction: column;
+    height: auto;
+    padding: 2vh 0;
+  }
+
+  .poster {
+    background-position-x: -12vh;
+  }
+
+  #home input {
+    width: 40%;
+  }
+
+  #home button {
+    margin-left: 3px;
+  }
+
+  #home img {
+    width: 30%;
+  }
 }
 </style>

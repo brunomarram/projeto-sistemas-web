@@ -9,8 +9,11 @@
     "deploy": "yarn build && firebase deploy"
   },
   "dependencies": {
+    "buefy": "^0.9.4",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
+    "vue-mq": "^1.0.1",
+    "vue-responsive": "^1.1.0",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
@@ -21,7 +24,8 @@
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
+    "eslint-plugin-vue": "^7.0.0-0",
+    "vue-cli-plugin-buefy": "~0.3.8"
   },
   "eslintConfig": {
     "root": true,

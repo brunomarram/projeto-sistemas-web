@@ -42,4 +42,18 @@ export default {
 #register form input {
   margin: 2vh 0
 }
+
+@media only screen and (max-width: 720px) {
+  #register {
+    height: auto;
+  }
+
+  #register img {
+    width: 30%;
+  }
+
+  #register form {
+    width: 90%;
+  }
+}
 </style>

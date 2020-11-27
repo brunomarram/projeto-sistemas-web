@@ -5,7 +5,7 @@
       <input type="search" placeholder="Busque por uma receita..."/>
       <button class="primary">Buscar</button>
     </div>
-    <div>
+    <div v-responsive.lg.xl>
         <button class="primary" v-on:click="send('login')">Fazer Login</button>
         <button class="primary raised" v-on:click="send('cadastrar')">Cadastrar</button>
     </div>
@@ -65,5 +65,15 @@ header .search input {
   height: 50%;
   width: 30vw;
   margin: 0 3vw;
+}
+
+@media only screen and (max-width: 720px) {
+  header .search input {
+    width: 100%;
+  }
+  
+  header div:last-child {
+    display: none;
+  }
 }
 </style>
