@@ -1,12 +1,12 @@
 <template>
   <div>
-    Oi Login :3
+    Oi Cadastro :3
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Login',
+  name: 'Register',
 }
 </script>
 

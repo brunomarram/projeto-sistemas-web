@@ -1,23 +1,28 @@
 <template>
   <header>
     <div class="search">
-      <a href="/">
-        <img alt="logo" src="../assets/logo.png">
-      </a>
+      <img v-on:click="send('/')" alt="logo" src="../assets/logo.png">
       <input type="search" placeholder="Busque por uma receita..."/>
       <button class="primary">Buscar</button>
     </div>
     <div>
-        <a class="primary" href="/login">Fazer Login</a>
-        <a class="primary raised" href="/cadastrar">Cadastrar</a>
+        <button class="primary" v-on:click="send('login')">Fazer Login</button>
+        <button class="primary raised" v-on:click="send('cadastrar')">Cadastrar</button>
     </div>
   </header>
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: 'Header',
-  props: {}
+  props: {},
+  methods: {
+    send: function(component) {
+      router.push(component)
+    }
+  }
 }
 </script>
 
@@ -39,12 +44,13 @@ header {
   z-index: 9;
 }
 
-header a, header img {
+header img {
   margin-left: 1vw;
   height: 100%;
+  cursor: pointer;
 }
 
-header a {
+header button {
   margin-right: 10px;
 }
 
