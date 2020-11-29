@@ -1,15 +1,16 @@
-import * as Vue from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
-import * as Buefy from 'buefy'
-// import 'buefy/dist/buefy.css'
 
-import responsive from 'vue-responsive'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 
+import VueRouter from 'vue-router'
 import router from './router'
 
-Vue.createApp(App)
-    .use(router)
-    .use(Buefy)
-    .use(responsive)
-    .mount('#app')
-  
+Vue.use(VueRouter);
+Vue.use(VueMaterial);
+
+Vue.config.productionTip = false
+
+new Vue({ router, render: h => h(App) }).$mount('#app')

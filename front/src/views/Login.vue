@@ -2,17 +2,31 @@
   <div id="login">
     <img alt="logo" src="../assets/logo.png">
     <h1>Faça Login para continuar</h1>
-    <form>
-      <input type="email" placeholder="E-mail"/>
-      <input type="password" placeholder="Senha"/>
-      <button class="primary">Acessar</button>
-    </form>
+    <div>
+      <input v-model="email" type="email" placeholder="E-mail"/>
+      <input v-model="password" type="password" placeholder="Senha"/>
+      <button v-on:click="submit" class="primary">Acessar</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Login',
+  data() {
+    return {
+      email: "",
+      password: ""
+    }
+  },
+  methods: {
+    submit: function() {
+      // Fazer login do usuário
+      window.localStorage.setItem("userId", "id-fake");
+      window.localStorage.setItem("username", "Usuário");
+      window.location.href = "/"
+    }
+  }
 }
 </script>
 
@@ -31,14 +45,23 @@ export default {
   height: 70vh
 }
 
-#login form {
+#login div {
   display: flex;
   flex-direction: column;
   width: 30%;
 }
 
-#login form input {
+#login div input {
   margin: 3vh 0
+}
+
+#login input {
+  -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  border: 0;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 @media only screen and (max-width: 720px) {
@@ -50,7 +73,7 @@ export default {
     width: 30%;
   }
 
-  #login form {
+  #login div {
     width: 90%;
   }
 }

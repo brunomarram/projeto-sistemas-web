@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header/>
-    <router-view/>
+    <div id="app">
+      <router-view/>
+    </div>
     <Footer/>
   </div>
 </template>
@@ -34,14 +36,7 @@ body {
   background: #edf1f1;
 }
 
-input {
-  -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
-  box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
-  border: 0;
-  padding: 20px;
-  border-radius: 20px;
-}
+
 
 button.primary, a.primary {
   -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);

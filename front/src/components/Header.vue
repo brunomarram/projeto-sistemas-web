@@ -5,7 +5,14 @@
       <input type="search" placeholder="Busque por uma receita..."/>
       <button class="primary">Buscar</button>
     </div>
-    <div v-responsive.lg.xl>
+    <div v-if="user" class="user">
+      <md-icon>account_circle</md-icon>
+      <h3>{{getUsername()}}</h3>
+      <md-button class="md-icon-button" v-on:click="logout">
+        <md-icon>exit_to_app</md-icon>
+      </md-button>
+    </div>
+    <div v-else>
         <button class="primary" v-on:click="send('login')">Fazer Login</button>
         <button class="primary raised" v-on:click="send('cadastrar')">Cadastrar</button>
     </div>
@@ -18,9 +25,21 @@ import router from "../router";
 export default {
   name: 'Header',
   props: {},
+  data() {
+    return {
+      user: window.localStorage.userId
+    }
+  },
   methods: {
     send: function(component) {
       router.push(component)
+    },
+    getUsername: function() {
+      return window.localStorage.getItem("username");
+    },
+    logout: function() {
+      window.localStorage.clear();
+      window.location.href = "/";
     }
   }
 }
@@ -65,6 +84,24 @@ header .search input {
   height: 50%;
   width: 30vw;
   margin: 0 3vw;
+}
+
+header .user {
+  display: flex;
+  align-items: center;
+}
+
+header .user h3 {
+  margin-left: 1vw;
+}
+
+header input {
+  -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  border: 0;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 @media only screen and (max-width: 720px) {

@@ -6,8 +6,10 @@
       <div>
         <h1>O que você quer cozinhar hoje?</h1>
         <div class="fieldset">
-          <div class="field" v-for="(ingredient, key) in ingredients" v-bind:key="ingredient">
-            <input :placeholder="placeholder(key)" type="text" />
+          <div class="field" v-for="(ingredient, key) in ingredients" v-bind:key="key">
+            <md-autocomplete v-model="ingredients[key]" :md-options="database" md-layout="box">
+              <label>{{placeholder(key)}}</label>
+            </md-autocomplete>
             <button v-if="key !== 0" v-on:click="removeIngredient(key)" class="secondary">Remover</button>
             <button v-if="key === (ingredients.length - 1)" v-on:click="addIngredient" class="primary">Adicionar</button>
           </div>
@@ -24,7 +26,8 @@ export default {
   props: {},
   data: function() {
     return {
-      ingredients: [""]
+      ingredients: [""],
+      database: ["teste"]
     }
   },
   methods: {
@@ -65,6 +68,14 @@ export default {
   justify-content: space-around;
   align-items: center;
   height: 90vh;
+}
+
+#home .md-field {
+  border-radius: 20px;
+  margin: 0;
+  -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
 }
 
 #home button {

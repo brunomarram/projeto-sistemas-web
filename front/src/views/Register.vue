@@ -43,6 +43,15 @@ export default {
   margin: 2vh 0
 }
 
+#register input {
+  -webkit-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 30px 0px rgba(0,0,0,0.1);
+  border: 0;
+  padding: 20px;
+  border-radius: 20px;
+}
+
 @media only screen and (max-width: 720px) {
   #register {
     height: auto;
