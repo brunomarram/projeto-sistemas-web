@@ -8,9 +8,28 @@
     <div v-if="user" class="user">
       <md-icon>account_circle</md-icon>
       <h3>{{getUsername()}}</h3>
-      <md-button class="md-icon-button" v-on:click="logout">
-        <md-icon>exit_to_app</md-icon>
-      </md-button>
+      <md-menu>
+        <md-button class="md-icon-button" md-menu-trigger>
+          <md-icon>menu</md-icon>
+        </md-button>
+
+        <md-menu-content>
+          <md-menu-item v-on:click="send('/minhas-receitas')">
+            <md-icon>local_dining</md-icon>
+            <span>Minhas Receitas</span>
+          </md-menu-item>
+
+          <md-menu-item v-on:click="send('/favoritas')">
+            <md-icon>favorite</md-icon>
+            <span>Favoritas</span>
+          </md-menu-item>
+
+          <md-menu-item v-on:click="logout">
+            <md-icon>exit_to_app</md-icon>
+            <span>Sair</span>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
     <div v-else>
         <button class="primary" v-on:click="send('login')">Fazer Login</button>
@@ -98,7 +117,7 @@ header .user {
 }
 
 header .user h3 {
-  margin-left: 1vw;
+  margin: 0 1vw;
 }
 
 header input {
