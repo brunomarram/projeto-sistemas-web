@@ -14,7 +14,7 @@
             <button v-if="key === (ingredients.length - 1)" v-on:click="addIngredient" class="primary">Adicionar</button>
           </div>
         </div>
-        <button class="primary receitar">Receitar!!</button>
+        <button class="primary receitar" v-on:click="seeRecipes">Receitar!!</button>
       </div>
     </div>
   </div>
@@ -39,6 +39,9 @@ export default {
     },
     removeIngredient: function (key) {
       this.ingredients.splice(key, 1);
+    },
+    seeRecipes: function() {
+      this.$router.push({ name: "Receitas", params: this.ingredients });
     }
   }
 }

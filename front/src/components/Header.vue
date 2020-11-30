@@ -2,8 +2,8 @@
   <header>
     <div class="search">
       <img v-on:click="send('/')" alt="logo" src="../assets/logo.png">
-      <input type="search" placeholder="Busque por uma receita..."/>
-      <button class="primary">Buscar</button>
+      <input v-model="search" type="search" placeholder="Busque por uma receita..." v-if="!hideSearch"/>
+      <button class="primary" v-on:click="send('Receitas', { search })" v-if="!hideSearch">Buscar</button>
     </div>
     <div v-if="user" class="user">
       <md-icon>account_circle</md-icon>
@@ -20,19 +20,25 @@
 </template>
 
 <script>
-import router from "../router";
-
 export default {
   name: 'Header',
   props: {},
   data() {
     return {
-      user: window.localStorage.userId
+      user: window.localStorage.userId,
+      search: "",
+      hideSearch: window.location.pathname === "/receitas" || false
     }
   },
   methods: {
-    send: function(component) {
-      router.push(component)
+    send: function(path, params = false) {
+      if(!params) {
+        this.hideSearch = false;
+        this.$router.push(path)
+      } else {
+        this.hideSearch = true;
+        this.$router.push({ name: path, params })
+      }
     },
     getUsername: function() {
       return window.localStorage.getItem("username");
@@ -40,8 +46,8 @@ export default {
     logout: function() {
       window.localStorage.clear();
       window.location.href = "/";
-    }
-  }
+    },
+  },
 }
 </script>
 
