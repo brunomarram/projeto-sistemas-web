@@ -1,6 +1,6 @@
 <template>
   <div id="receitas">
-      <h1 v-if="search">Suas buscas pelo termo {{search}} retornaram os seguintes resultados: </h1>
+      <h1>Minhas receitas favoritas: </h1>
       <section>
             <md-card v-for="recipe in recipes" v-bind:key="recipe._id.$oid">
                 <md-card-area>
@@ -22,17 +22,9 @@
                     <md-button class="md-primary md-raised" v-on:click="seeRecipe(recipe)">
                         Ver receita completa
                     </md-button>
-                    <div>
-                        <md-button v-if="isLogged()" v-on:click="favorite(recipe._id.$oid)" class="md-icon-button">
-                            <md-icon>favorite</md-icon>
-                        </md-button>
-                    </div>
                 </md-card-actions>
             </md-card>
       </section>
-      <md-snackbar md-position="left" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
-        <span>Receita adicionada as favoritas com sucesso</span>
-      </md-snackbar>
   </div>
 </template>
 
@@ -43,35 +35,14 @@ import recipes from "../mock/recipes.json";
 export default {
   name: 'Receitas',
   data() {
-    let tempRecipes = []
-
-    if(this.$route.params?.search) {
-      tempRecipes = recipes.filter((recipe) => {
-        return recipe.nome.toLowerCase().indexOf(this.$route.params?.search) > -1;
-      })
-    } else {
-      tempRecipes = recipes.splice(0, 20);
-    }
-
-    return {
-      recipes: tempRecipes,
-      showSnackbar: false,
-      search: this.$route.params?.search || false
-    }
+    const favorites = window.localStorage.getItem("favorites");
+    const ids = favorites.split(",");
+    return { recipes: recipes.filter((recipe) => ids.indexOf(recipe._id.$oid) > -1) }
   },
   methods: {
     seeRecipe: function(recipe) {
       router.push({ path: "receita/"+recipe._id, name: "Receita", params: recipe })
     },
-    isLogged: function() {
-        return window.localStorage.userId;
-    },
-    favorite: function(id) {
-      this.showSnackbar = true;
-      let favorites = window.localStorage.getItem("favorites");
-      (!favorites) ? favorites = id : favorites += `,${id}`;
-      window.localStorage.setItem("favorites", favorites);
-    }
   }
 }
 </script>

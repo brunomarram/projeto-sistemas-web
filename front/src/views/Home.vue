@@ -27,7 +27,7 @@ export default {
   data: function() {
     return {
       ingredients: [""],
-      database: ["teste"]
+      database: ["arroz", "feijão", "carne de frango", "peito de frango", "massa de tomate", "batata", "maça"]
     }
   },
   methods: {

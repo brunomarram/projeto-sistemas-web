@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Receitas from '../views/Receitas.vue'
 import Receita from '../views/Receita.vue'
+import Favoritas from "../views/Favoritas.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/receita/:id",
     name: "Receita",
     component: Receita
+  },
+  {
+    path: "/favoritas",
+    name: "Favoritas",
+    component: Favoritas
   }
 ]
 

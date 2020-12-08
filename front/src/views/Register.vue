@@ -2,19 +2,27 @@
   <div id="register">
     <img alt="logo" src="../assets/logo.png">
     <h1>Que tal fazer seu cadastro?</h1>
-    <form>
+    <div class="form">
       <input type="text" placeholder="Nome"/>
       <input type="email" placeholder="E-mail"/>
       <input type="password" placeholder="Senha"/>
       <input type="password" placeholder="Confirmar senha"/>
-      <button class="primary">Cadastrar</button>
-    </form>
+      <button class="primary" v-on:click="submit()">Cadastrar</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Register',
+  methods: {
+    submit: function() {
+      // Fazer login do usuário
+      window.localStorage.setItem("userId", "id-fake");
+      window.localStorage.setItem("username", "Bruno Marra");
+      window.location.href = "/"
+    }
+  },
 }
 </script>
 
@@ -30,16 +38,16 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 70vh
+  height: 90vh
 }
 
-#register form {
+#register .form {
   display: flex;
   flex-direction: column;
   width: 30%;
 }
 
-#register form input {
+#register .form input {
   margin: 2vh 0
 }
 
@@ -61,7 +69,7 @@ export default {
     width: 30%;
   }
 
-  #register form {
+  #register .form {
     width: 90%;
   }
 }
