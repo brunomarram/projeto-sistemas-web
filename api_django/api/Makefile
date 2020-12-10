@@ -1,5 +1,7 @@
+instalar_dependencias:
+	sudo apt-get install python3-venv
 criar_ambiente:
-	python3.8 -m venv ambiente
+	python3 -m venv ambiente
 	ambiente/bin/pip3 install --upgrade pip
 	ambiente/bin/pip3 install -r requirements.txt
 atualizar_ambiente:

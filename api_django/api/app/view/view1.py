@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, response
+# from requests.api import request
 
 from app.controller import ctrl1
 
@@ -20,5 +21,11 @@ def receitas(request):
 def receita(request, id_receita):
     
     response = ctrl1.receita(id_receita)
+
+    return HttpResponse(response, content_type='application/json; charset=utf-8')
+
+def buscar_receita(request):
+
+    response = ctrl1.buscar_receita(request)
 
     return HttpResponse(response, content_type='application/json; charset=utf-8')

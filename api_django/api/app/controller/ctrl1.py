@@ -1,9 +1,9 @@
-import json, requests
+import json, requests, ast
 
 from app.models import Receita, ModoPreparo, IngredienteReceita, InformacaoReceita
 
 def remove_sujeira_str(texto):
-    return texto.strip().replace("\xa0", "")
+    return texto.strip().replace("\xa0", " ")
 
 def get_receitas_base_dados():
 
@@ -71,7 +71,8 @@ def receitas():
     receitas_disponiveis = Receita.objects.all()
     
     for receita in receitas_disponiveis:
-        dicionario_receitas.update({receita.nome:receita.id})
+        if(receita.nome not in dicionario_receitas):
+            dicionario_receitas.update({receita.nome:receita.id})
 
     response = json.dumps(dicionario_receitas)
     
@@ -85,7 +86,11 @@ def receita(id_receita):
 
     if(receita.exists()):
 
-        ingredientes = IngredienteReceita.objects.filter(receita=receita[0])
+        receita = receita[0]
+
+        dicionario_receita.update({'nome': receita.nome})
+
+        ingredientes = IngredienteReceita.objects.filter(receita=receita)
 
         lista_ingredientes = []
         for ingrediente in ingredientes:
@@ -94,7 +99,7 @@ def receita(id_receita):
         if(lista_ingredientes):
             dicionario_receita.update({'ingredientes': lista_ingredientes})
         
-        modo_preparo = ModoPreparo.objects.filter(receita=receita[0])
+        modo_preparo = ModoPreparo.objects.filter(receita=receita)
 
         lista_modo_preparo = []
         for mp in modo_preparo:
@@ -103,7 +108,7 @@ def receita(id_receita):
         if(lista_modo_preparo):
             dicionario_receita.update({'modo_preparo': lista_modo_preparo})
 
-        informacoes = InformacaoReceita.objects.filter(receita=receita[0])
+        informacoes = InformacaoReceita.objects.filter(receita=receita)
 
         lista_informacoes = []
         for informacao in informacoes:
@@ -116,3 +121,26 @@ def receita(id_receita):
     
     return response
 
+def buscar_receita(request):
+
+    dicionario_receitas = {}
+
+    palavra = ast.literal_eval(request.body.decode("utf-8"))['palavra']
+    # palavra = request.POST['palavra'] # ou request.POST.getlist('palavra', None)
+    print(palavra)
+
+    receitas_com_palavra = Receita.objects.filter(nome__icontains=palavra)
+    
+    for receita in receitas_com_palavra:
+        if(receita.nome not in dicionario_receitas):
+            dicionario_receitas.update({receita.nome:receita.id})
+    
+    ingredientes_com_palavra = IngredienteReceita.objects.filter(ingrediente__icontains=palavra)
+
+    for ingrediente in ingredientes_com_palavra:
+        if(ingrediente.receita.nome not in dicionario_receitas):
+            dicionario_receitas.update({ingrediente.receita.nome:ingrediente.receita.id})
+
+    response = json.dumps(dicionario_receitas)
+    
+    return response
