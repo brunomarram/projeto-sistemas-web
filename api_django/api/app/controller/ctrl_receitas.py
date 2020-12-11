@@ -1,4 +1,6 @@
-import json, requests, ast, re
+import json, requests, ast, re, operator
+from django.db.models import Q
+from functools import reduce
 
 from app.models import Receita, ModoPreparo, IngredienteReceita, InformacaoReceita
 
@@ -156,16 +158,16 @@ def buscar_receita(request):
 
     dicionario_receitas = {}
 
-    palavra = ast.literal_eval(request.body.decode("utf-8"))['palavra']
+    itens_busca = ast.literal_eval(request.body.decode("utf-8")) # ['palavra']
     # palavra = request.POST['palavra'] # ou request.POST.getlist('palavra', None)
 
-    receitas_com_palavra = Receita.objects.filter(nome__icontains=palavra)
+    receitas_com_itens = Receita.objects.filter(reduce(operator.or_, (Q(nome__icontains=item) for item in itens_busca)))
     
-    for receita in receitas_com_palavra:
+    for receita in receitas_com_itens:
         if(receita.nome not in dicionario_receitas):
             dicionario_receitas.update({receita.nome:receita.id})
     
-    ingredientes_com_palavra = IngredienteReceita.objects.filter(ingrediente__icontains=palavra)
+    ingredientes_com_palavra = IngredienteReceita.objects.filter(reduce(operator.or_, (Q(ingrediente__icontains=item) for item in itens_busca)))
 
     for ingrediente in ingredientes_com_palavra:
         if(ingrediente.receita.nome not in dicionario_receitas):
