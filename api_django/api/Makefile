@@ -9,5 +9,8 @@ atualizar_ambiente:
 	ambiente/bin/pip3 install -r requirements.txt
 remover_ambiente:
 	rm -r ambiente/
+criar_bd:
+	ambiente/bin/python manage.py migrate
+	ambiente/bin/python manage.py makemigrations
 executar_projeto:
 	ambiente/bin/python3 manage.py runserver
