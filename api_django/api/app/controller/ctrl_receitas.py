@@ -1,21 +1,51 @@
-import json, requests, ast
+import json, requests, ast, re
 
 from app.models import Receita, ModoPreparo, IngredienteReceita, InformacaoReceita
+
+def retorna_indices_ingredientes_concatenados(texto):
+
+    # x = re.split("[a-zA-Záãéóíú\)][0-9]", texto)
+
+    texto_corrigido = texto
+
+    lista_substrings_ocorrencia = re.findall("[a-zA-Záãéóíú\)][0-9]", texto)
+
+    if(lista_substrings_ocorrencia):
+
+        for substring in lista_substrings_ocorrencia:
+            indice_substring = texto_corrigido.find(str(substring)) + 1
+            texto_corrigido = texto_corrigido[:indice_substring] + '@&' + texto_corrigido[indice_substring:]
+        
+        lista_ingredientes = texto_corrigido.split("@&")
+
+    else:
+        
+        lista_ingredientes = [texto]
+    
+    return lista_ingredientes
+
+def adicionar_espaco_entre_numero_e_string(texto):
+
+    texto_corrigido = texto
+
+    lista_substrings_ocorrencia = re.findall("[0-9][a-zA-Záãéóíú\)]", texto_corrigido)
+
+    for substring in lista_substrings_ocorrencia:
+        indice_substring = texto_corrigido.find(str(substring)) + 1
+        texto_corrigido = texto_corrigido[:indice_substring] + ' ' + texto_corrigido[indice_substring:]
+
+    return texto_corrigido
 
 def remove_sujeira_str(texto):
     return texto.strip().replace("\xa0", " ")
 
 def get_receitas_base_dados():
 
-    # curl -X POST -H \"Content-Type: application/json\" -d \
-    # '{\"destino\":\"1\",\"passagem\":\"2\",\"hospedagem\":\"1\",\"passeios\":\"1,2\" }' \
-    # http://localhost:8080/build/webresources/vendas
-
     # Making a get request 
     response = requests.get('https://raw.githubusercontent.com/adrianosferreira/afrodite.json/master/afrodite.json')
 
     receitas = []
-    i = 0; maximo_receitas = 50
+    i = 0; maximo_receitas = 100
 
     indices_json = {'ingredientes': 0, 'modo_preparo': 1, 'outras_informacoes': 2}
 
@@ -32,9 +62,10 @@ def get_receitas_base_dados():
         lista_ingredientes = []
 
         for ingrediente in item['secao'][indices_json['ingredientes']]['conteudo']:
-            item_inserir = remove_sujeira_str(ingrediente)
-            if(item_inserir != ""):
-                lista_ingredientes.append(IngredienteReceita(receita=receita, ingrediente=item_inserir))
+            lista_ingredientes_separados = retorna_indices_ingredientes_concatenados(remove_sujeira_str(ingrediente))
+            for ingrediente_2 in lista_ingredientes_separados:
+                if(ingrediente_2 != ""):
+                    lista_ingredientes.append(IngredienteReceita(receita=receita, ingrediente=adicionar_espaco_entre_numero_e_string(ingrediente_2)))
         
         IngredienteReceita.objects.bulk_create(lista_ingredientes)
 
@@ -127,7 +158,6 @@ def buscar_receita(request):
 
     palavra = ast.literal_eval(request.body.decode("utf-8"))['palavra']
     # palavra = request.POST['palavra'] # ou request.POST.getlist('palavra', None)
-    print(palavra)
 
     receitas_com_palavra = Receita.objects.filter(nome__icontains=palavra)
     
